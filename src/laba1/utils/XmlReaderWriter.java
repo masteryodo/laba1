@@ -9,13 +9,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
+import static laba1.Constants.*;
 import laba1.dto.Client;
+import laba1.dto.Order;
 import laba1.exception.InformationSystemUiException;
 import org.w3c.dom.*;
 
 public class XmlReaderWriter {
-    private File fileXml;
     private DocumentBuilderFactory dbf;
         
     public XmlReaderWriter()
@@ -23,40 +23,30 @@ public class XmlReaderWriter {
         this.dbf = DocumentBuilderFactory.newInstance();
     }
     
-    public void readXml(File fileXML)
-    {
+    public HashSet<Client> readClientsFromXml()
+    {   
+        HashSet<Client> clientsSet = new HashSet<Client>();
         try
         {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc=db.parse(fileXML);
+            Document doc=db.parse(new File(CLIENTS_FILE));
             doc.getDocumentElement().normalize();
-            System.out.println("Root element ["+doc.getDocumentElement().getNodeName()+"]");
-            
-            /*NodeList nodeLst=doc.getElementsByTagName("point");
-            System.out.println("Points");
-            for(int je=0;je<nodeLst.getLength();je++)
-            {
-                Node fstNode=nodeLst.item(je);
-                if(fstNode.getNodeType()==Node.ELEMENT_NODE)
-                {
-                    Element elj=(Element)fstNode;
-                    NodeList nljx=elj.getElementsByTagName("x");
-                    Element eljx=(Element)nljx.item(0);
-                    NodeList nljxc=eljx.getChildNodes();
-                    NodeList nljy=elj.getElementsByTagName("y");
-                    Element eljy=(Element)nljy.item(0);
-                    NodeList nljyc=eljy.getChildNodes();
-                    
-                    System.out.println(
-                      "x, y ["+((Node)nljxc.item(0)).getNodeValue()+", "+((Node)nljyc.item(0)).getNodeValue()+"]"
-                      );
-                }
-            }*/
+            NodeList nodeLst=doc.getElementsByTagName("Client");
+            for(int i = 0; i < nodeLst.getLength(); i++)
+            {   
+                NodeList client = nodeLst.item(i).getChildNodes();
+                Long client_id = new Long(client.item(0).getLastChild().getTextContent());
+                String name = client.item(1).getLastChild().getTextContent();
+                String address = client.item(2).getLastChild().getTextContent();
+                String phone = client.item(3).getLastChild().getTextContent();
+                clientsSet.add(new Client(client_id, name, address, phone));
+            }
         }
         catch(Exception ei)
         {
-
+            System.out.println("Ошибка чтения БД "+ei);
         }
+            return clientsSet;
     }
     
     public void writeClientsToXml(Set<Client> clientsSet)
@@ -66,29 +56,30 @@ public class XmlReaderWriter {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.newDocument();
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            //System.out.println("всего выгружается " + hs.size() + " объектов");
             Element RootElement = doc.createElement("Clients");
-            //System.out.println("Создали " + RootElement.getTagName());
             doc.appendChild(RootElement);
             for (Client h : clientsSet)
             {
                 Element te = doc.createElement("Client"); //te это тип элемента
                 RootElement.appendChild(te);
 
-                Element name = doc.createElement("name"); //добавляем имя
+                Element clientId = doc.createElement("client_id");
+                clientId.appendChild(doc.createTextNode(h.getId()));
+                te.appendChild(clientId);
+                
+                Element name = doc.createElement("name");
                 name.appendChild(doc.createTextNode(h.getName()));
                 te.appendChild(name);
 
-                Element adres = doc.createElement("address"); //добавляем адрес
+                Element adres = doc.createElement("address"); 
                 adres.appendChild(doc.createTextNode(h.getAddress()));
                 te.appendChild(adres);
 
-                Element tel = doc.createElement("phone"); //добавляем телефон
+                Element tel = doc.createElement("phone");
                 tel.appendChild(doc.createTextNode(h.getPhone()));
                 te.appendChild(tel);
             }
-            transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream("Clients.xml")));
-            //System.out.println("загрузка клиентов в файл завершена\n");
+            transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(CLIENTS_FILE)));
         }
         catch (FileNotFoundException e)
         {

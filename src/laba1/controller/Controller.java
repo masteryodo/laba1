@@ -2,11 +2,12 @@ package laba1.controller;
 
 import laba1.dto.Client;
 import laba1.model.InformationSystemModel;
-import laba1.utils.GenerateId;
 import laba1.view.View;
+import laba1.utils.GenerateId;
 
 import java.util.HashSet;
 import java.util.Scanner;
+import laba1.dto.Order;
 
 public class Controller
 {
@@ -31,7 +32,7 @@ public class Controller
              {
                  view.showHelp();
              }
-             if(s1.equals("s")) { }
+             if(s1.equals("show")) {show();}
              if(s1.equals("add")) {add();}
              if(s1.equals("exit")) {exitDialog();}
         }
@@ -55,18 +56,35 @@ public class Controller
             String clientAddress = addScanner.nextLine();
             System.out.print("Введите телефон клиента: ");
             String clientPhone =  addScanner.nextLine();
-            Client client = new Client(GenerateId.getId(), clientName, clientAddress, clientPhone, new HashSet<>());
+            Client client = new Client(GenerateId.getId(),clientName, clientAddress, clientPhone);
             model.addClient(client);
+        }
+        else if(str.equals("2"))
+        {
+            System.out.println("Введите идентификатор клиента");
+            view.showClients();
+            //long client_id = addScanner.nextLine();
+            
+           // Order order = new Order(orderId, clientId, null, orderSum);
         }
     }
 
     private void exitDialog()
     {
-        System.out.print("Сохранить изменения ? (y/n): ");
+        System.out.println("До свидания!");
+    }
+
+    private void show() {
+        String str = "";
+        System.out.println("Выберите тип элемента");
+        System.out.println("1 Клиенты");
+        System.out.println("2 Заказы");
         Scanner addScanner = new Scanner(System.in);
-        if(addScanner.nextLine().equals("y"))
+        str = addScanner.nextLine();
+        
+        if (str.equals("1"))
         {
-            model.saveToXML();
+            view.showClients();
         }
     }
 }

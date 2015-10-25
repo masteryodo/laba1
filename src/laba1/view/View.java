@@ -11,28 +11,27 @@ public class View
     public View(InformationSystemModel model)
     {
         this.model = model;
-        //TODO:need create method for show spravka
-        /*System.out.println("Добрый день! вы в программе Справка 1.0");
-        System.out.println("Если вам нужна помощь наберите help и нажмите enter");
-        System.out.println("Для выхода наберите exit и нажмите enter");*/
     }
 
     public void showHelp()
     {
         StringBuilder showView = new StringBuilder();
         showView.append("Для выполнения операции используйте следующие аргументы: \n")
-                .append("s режим просмотра пример: s клиенты(Тип)\n")
-                .append("m режим изменения\n")
-                .append("f режим поиска\n")
-                .append("add режим добавления");
+                .append("show режим просмотра\n")
+                .append("modify режим изменения\n")
+                .append("find режим поиска\n")
+                .append("add режим добавления")
+                .append("remove режим удаления")
+                .append("import режим импортирования из файла");
+        
         System.out.println(showView.toString());
     }
 
-    public void showClient()
+    public void showClients()
     {
         for(Client client: model.getClients())
         {
-            System.out.println("Hello client " + client.getId());
+            System.out.println(client.getId() +" -> "+client.getName());
         }
     }
     

@@ -2,11 +2,11 @@
 package laba1.dto;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-
+import laba1.utils.GenerateId;
 public class Order implements Serializable
 {
-    private int orderId;
-    private int clientId;  // каждый заказ связан с клиентом по id клиента
+    private long orderId;
+    private long clientId;  // каждый заказ связан с клиентом по id клиента
     private SimpleDateFormat orderDate;
     private double orderSum;
 
@@ -17,13 +17,13 @@ public class Order implements Serializable
         this.orderDate = orderDate;
         this.orderSum = orderSum;
     }
-
-    public int getOrderId()
+    
+    public long getOrderId()
     {
-        return orderId;
+        return GenerateId.getId();
     }
 
-    public int getClientId()
+    public long getClientId()
     {
         return clientId;
     }
@@ -44,7 +44,10 @@ public class Order implements Serializable
     }
 
     public void setClientId(int clientId)
-    {
+    {   
+        // Нельзя создать заказ без клиента
+        // при записи в модель будет проверка
+        // а при вводе через контроллер выведем список id_client -> name
         this.clientId = clientId;
     }
 

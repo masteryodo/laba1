@@ -2,24 +2,22 @@
 package laba1.dto;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 
 public class Client implements Serializable
 {
-    private long id;
+    private final long id;
     private String name;
     private String address;
     private String phone;
     private Set<Order> orders;
 
-    public Client(final long id, final String name, final String address, final String phone, Set<Order> orders)
+    public Client(final long id, final String name, final String address, final String phone)
     {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phone = phone;
-        this.orders = orders;
     }
 
     @Override
@@ -43,9 +41,9 @@ public class Client implements Serializable
         this.phone = phone;
     }
 
-    public long getId()
+    public String getId()
     {
-        return id;
+        return Long.toString(id);
     }
 
     public String getName()
