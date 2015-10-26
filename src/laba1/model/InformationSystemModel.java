@@ -11,11 +11,12 @@ import javax.xml.parsers.ParserConfigurationException;
 public class InformationSystemModel
 {
     private final Set<Client> clientsSet;
-    private final HashSet<Order> ordersSet;
-    private final XmlReaderWriter xml = new XmlReaderWriter();
+    private final Set<Order> ordersSet;
+    private final XmlReaderWriter xml;
 
     public InformationSystemModel() throws ParserConfigurationException
     {   
+        xml = new XmlReaderWriter();
         this.ordersSet = new HashSet<>();
         this.clientsSet = xml.readClientsFromXml();
         

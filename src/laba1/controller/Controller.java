@@ -1,5 +1,4 @@
 package laba1.controller;
-
 import laba1.dto.Client;
 import laba1.model.InformationSystemModel;
 import laba1.view.View;
@@ -28,13 +27,15 @@ public class Controller
         do
         { System.out.print("spr1.0: ");
              s1 = sc.nextLine();
-             if(s1.equals("help"))
+             switch (s1)
              {
-                 view.showHelp();
+                 case "help" : view.showHelp(); break;
+                 case "show" : show();          break;
+                 case "add"  : add();           break;
+                 case "exit" : exitDialog();    break;
+                 default: 
+                 System.out.println("Вы ввели неподходящий символ для справки наберите help");
              }
-             if(s1.equals("show")) {show();}
-             if(s1.equals("add")) {add();}
-             if(s1.equals("exit")) {exitDialog();}
         }
         while (!s1.equals("exit"));
     }
@@ -48,24 +49,24 @@ public class Controller
         Scanner addScanner = new Scanner(System.in);
         str = addScanner.nextLine();
         
-        if (str.equals("1"))
-        {
-            System.out.print("Введите имя клиента: ");
-            String clientName = addScanner.nextLine();
-            System.out.print("Введите адрес клиента: ");
-            String clientAddress = addScanner.nextLine();
-            System.out.print("Введите телефон клиента: ");
-            String clientPhone =  addScanner.nextLine();
-            Client client = new Client(GenerateId.getId(),clientName, clientAddress, clientPhone);
-            model.addClient(client);
-        }
-        else if(str.equals("2"))
-        {
-            System.out.println("Введите идентификатор клиента");
-            view.showClients();
-            //long client_id = addScanner.nextLine();
-            
-           // Order order = new Order(orderId, clientId, null, orderSum);
+        switch( str )
+        {   
+            case "1" :
+                System.out.print("Введите имя клиента: ");
+                String clientName = addScanner.nextLine();
+                System.out.print("Введите адрес клиента: ");
+                String clientAddress = addScanner.nextLine();
+                System.out.print("Введите телефон клиента: ");
+                String clientPhone =  addScanner.nextLine();
+                Client client = new Client(GenerateId.getId(),clientName, clientAddress, clientPhone);
+                model.addClient(client);
+                break;
+            case "2" :
+                System.out.println("Введите идентификатор клиента");
+                view.showClients();
+                break;
+            default :
+                System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");
         }
     }
 
@@ -82,9 +83,16 @@ public class Controller
         Scanner addScanner = new Scanner(System.in);
         str = addScanner.nextLine();
         
-        if (str.equals("1"))
-        {
-            view.showClients();
+        switch ( str )
+        {   
+            case "1" :
+                view.showClients(); 
+                break;
+            case "2" :
+                System.out.println("не реализовано пока");
+                break;
+            default: 
+            System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");
         }
     }
 }
