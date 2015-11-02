@@ -3,10 +3,7 @@ import laba1.dto.Client;
 import laba1.model.InformationSystemModel;
 import laba1.view.View;
 import laba1.utils.GenerateId;
-
-import java.util.HashSet;
 import java.util.Scanner;
-import laba1.dto.Order;
 
 public class Controller
 {

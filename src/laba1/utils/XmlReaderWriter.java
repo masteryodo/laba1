@@ -1,5 +1,7 @@
 package laba1.utils;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import javax.xml.parsers.*;
@@ -47,6 +49,32 @@ public class XmlReaderWriter {
             System.out.println("Ошибка чтения БД "+ei);
         }
             return clientsSet;
+    }
+    public HashSet<Order> readOrdersFromXml()
+    {   
+        HashSet<Order> ordersSet = new HashSet<Order>();
+        try
+        {   
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc=db.parse(new File(ORDERS_FILE));
+            doc.getDocumentElement().normalize();
+            NodeList nodeLst=doc.getElementsByTagName("Order");
+            for(int i = 0; i < nodeLst.getLength(); i++)
+            {   
+                NodeList order = nodeLst.item(i).getChildNodes();
+                Long orderId = new Long(order.item(0).getLastChild().getTextContent());
+                Long clientId = new Long(order.item(1).getLastChild().getTextContent());
+                Date orderDate = dateFormat.parse(order.item(2).getLastChild().getTextContent());
+                double orderSum = Double.parseDouble(order.item(3).getLastChild().getTextContent());
+                ordersSet.add( new Order(orderId, clientId, orderDate, orderSum));
+            }
+        }
+        catch(Exception ei)
+        {
+            System.out.println("Ошибка чтения БД "+ei);
+        }
+            return ordersSet;
     }
     
     public void writeClientsToXml(Set<Client> clientsSet)
@@ -99,5 +127,57 @@ public class XmlReaderWriter {
 
         }
     }
+public void writeOrdersToXml(Set<Order> ordersSet)
+    {
+        try
+        {   
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.newDocument();
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            Element RootElement = doc.createElement("Orders");
+            doc.appendChild(RootElement);
+            for (Order h : ordersSet)
+            {
+                Element te = doc.createElement("Order"); //te это тип элемента
+                RootElement.appendChild(te);
+
+                Element orderId = doc.createElement("order_id");
+                orderId.appendChild(doc.createTextNode(Long.toString(h.getOrderId())));
+                te.appendChild(orderId);
+                
+                Element name = doc.createElement("client_id");
+                name.appendChild(doc.createTextNode(Long.toString(h.getClientId())));
+                te.appendChild(name);
+
+                Element adres = doc.createElement("order_date"); 
+                adres.appendChild(doc.createTextNode( dateFormat.format(h.getOrderDate())));
+                te.appendChild(adres);
+
+                Element tel = doc.createElement("order_sum");
+                tel.appendChild(doc.createTextNode(String.valueOf(h.getOrderSum())));
+                te.appendChild(tel);
+            }
+            transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(CLIENTS_FILE)));
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new InformationSystemUiException("Problem load file cause: ", e);
+        }
+        catch (TransformerConfigurationException e)
+        {
+            throw new InformationSystemUiException("Problem parse xml cause: ", e);
+        }
+        catch (TransformerException e)
+        {
+            throw new InformationSystemUiException("Problem transform xml cause: ", e);
+        }
+        catch (ParserConfigurationException e)
+        {
+            throw new InformationSystemUiException("Problem Initialization xml parser: ", e);
+
+        }
+    }
+
 } 
 

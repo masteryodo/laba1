@@ -1,16 +1,20 @@
 
 package laba1.dto;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import laba1.utils.GenerateId;
+import static laba1.Constants.*;
+
 public class Order implements Serializable
 {
     private long orderId;
     private long clientId;  // каждый заказ связан с клиентом по id клиента
-    private SimpleDateFormat orderDate;
+    private Date orderDate;
     private double orderSum;
 
-    public Order(int orderId, int clientId, SimpleDateFormat orderDate, double orderSum)
+    public Order(long orderId, long clientId, Date orderDate, double orderSum)
     {
         this.orderId = orderId;
         this.clientId = clientId;
@@ -20,7 +24,7 @@ public class Order implements Serializable
     
     public long getOrderId()
     {
-        return GenerateId.getId();
+        return this.orderId;
     }
 
     public long getClientId()
@@ -28,7 +32,7 @@ public class Order implements Serializable
         return clientId;
     }
 
-    public SimpleDateFormat getOrderDate()
+    public Date getOrderDate()
     {
         return orderDate;
     }
@@ -38,22 +42,20 @@ public class Order implements Serializable
         return orderSum;
     }
 
-    public void setOrderId(int orderId)
+    public void setOrderId()
     {
-        this.orderId = orderId;
+        this.orderId = GenerateId.getId();
     }
 
-    public void setClientId(int clientId)
+    public void setClientId(long clientId)
     {   
-        // Нельзя создать заказ без клиента
-        // при записи в модель будет проверка
-        // а при вводе через контроллер выведем список id_client -> name
         this.clientId = clientId;
     }
 
-    public void setOrderDate(SimpleDateFormat orderDate)
-    {
-        this.orderDate = orderDate;
+    public void setOrderDate(String orderDate) throws ParseException
+    {   
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        this.orderDate = dateFormat.parse(orderDate);
     }
 
     public void setOrderSum(double orderSum)
