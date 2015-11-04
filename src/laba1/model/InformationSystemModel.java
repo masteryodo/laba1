@@ -16,7 +16,7 @@ public class InformationSystemModel
     public InformationSystemModel() throws ParserConfigurationException
     {   
         xml = new XmlReaderWriter();
-        this.ordersSet = new HashSet<>();
+        this.ordersSet = xml.readOrdersFromXml();
         this.clientsSet = xml.readClientsFromXml();
     }
 
@@ -32,16 +32,91 @@ public class InformationSystemModel
     
     public void addClient(Client client)
     {   
-        xml.readClientsFromXml();
         clientsSet.add(client);
         xml.writeClientsToXml(clientsSet);
+    }
+    public void removeClient(long id)
+    {   
+        if ( getClientById(id) != null)
+        {
+        clientsSet.remove(getClientById(id));
+        xml.writeClientsToXml(clientsSet);
+        for (Order order : getOrdersByClientId(id)) 
+        {
+              removeOrder(order.getOrderId());
+        }
+    
+        
+        }
+        else
+        {
+            System.out.println("Ошибка записи! Клиент с ID " + String.valueOf(id) +" не существует !");
+        }
     }
     
     public void addOrder(Order order)
     {   
-        xml.readClientsFromXml();
-        ordersSet.add(order);
-        xml.writeClientsToXml(clientsSet);
+        if ( getClientById(order.getClientId()) != null)
+        {
+            ordersSet.add(order);
+            xml.writeOrdersToXml(ordersSet);
+        }
+        else
+        {
+            System.out.println("Ошибка записи! Клиент с ID " + String.valueOf(order.getClientId()) +" не существует !");
+        }
+        
     }
- 
+    public void removeOrder(long id)
+    {   
+        ordersSet.remove(getOrderById(id));
+        xml.writeOrdersToXml(ordersSet);
+    }
+    public Client getClientById(long id)
+    {   
+        Client resultClient = null;
+        if (Long.valueOf(id) != null)
+        {
+        for (Client client : clientsSet) {
+            if ( client.getId() == id )
+            {
+                resultClient = client;
+            }
+        }
+        }
+        else {System.out.println("Получен id = null");}
+        return resultClient;
+    }
+    
+    public Order getOrderById(long id)
+    {   
+        Order resultOrder = null;
+        for (Order order : ordersSet) {
+            if ( order.getOrderId() == id )
+            {
+                resultOrder = order;
+            }
+        }
+        return resultOrder;
+    }
+    
+    public Set<Order> getOrdersByClientId(long id)
+    {   
+        HashSet<Order> resultOrder = new HashSet<>();
+        for (Order order : ordersSet) {
+            if ( order.getClientId() == id )
+            {
+                resultOrder.add(order);
+            }
+        }
+        return resultOrder;
+    }
+    public void modifyClient(long id)
+    {   
+    }
+    
+    public void modifyOrder(long id)
+    {   
+       
+    }
 }
