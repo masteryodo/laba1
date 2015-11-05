@@ -92,7 +92,7 @@ public class XmlReaderWriter {
                 RootElement.appendChild(te);
 
                 Element clientId = doc.createElement("client_id");
-                clientId.appendChild(doc.createTextNode(h.getId()));
+                clientId.appendChild(doc.createTextNode( Long.toString(h.getId()) ) );
                 te.appendChild(clientId);
                 
                 Element name = doc.createElement("name");
@@ -158,7 +158,7 @@ public void writeOrdersToXml(Set<Order> ordersSet)
                 tel.appendChild(doc.createTextNode(String.valueOf(h.getOrderSum())));
                 te.appendChild(tel);
             }
-            transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(CLIENTS_FILE)));
+            transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(ORDERS_FILE)));
         }
         catch (FileNotFoundException e)
         {

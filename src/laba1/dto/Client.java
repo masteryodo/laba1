@@ -41,9 +41,9 @@ public class Client implements Serializable
         this.phone = phone;
     }
 
-    public String getId()
+    public long getId()
     {
-        return Long.toString(id);
+        return id;
     }
 
     public String getName()

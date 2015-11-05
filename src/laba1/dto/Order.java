@@ -5,7 +5,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import laba1.utils.GenerateId;
-import static laba1.Constants.*;
 
 public class Order implements Serializable
 {
