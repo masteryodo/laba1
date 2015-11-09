@@ -34,6 +34,7 @@ public class Controller
                  case "show"    : show();          break;
                  case "add"     : add();           break;
                  case "remove"  : remove();        break;
+                 case "modify"  : modify();        break;
                  case "exit"    : exitDialog();    break;
                  default: 
                  System.out.println("Вы ввели неподходящий символ для справки наберите help");
@@ -68,7 +69,7 @@ public class Controller
                 System.out.println("Введите идентификатор клиента, для удобства используйте Copy / Paste");
                 view.showClients();
                 System.out.print("spr1.0: ");
-                long clientId = Long.parseLong(addScanner.nextLine());
+                long clientId = Long.valueOf(addScanner.nextLine());
                 long orderId = GenerateId.getId();
                 System.out.print("Введите дату в формате дд.мм.гггг: ");
                 Date orderDate = null;
@@ -131,13 +132,14 @@ public class Controller
         System.out.print("spr1.0: ");
         Scanner addScanner = new Scanner(System.in);
         str = addScanner.nextLine();
-        long id;
+        long id = 0;
         
         switch( str )
         {   
             case "1" :
                 System.out.println("Введите ID клиента для удаления, для удобства используйте Copy / Paste");
                 view.showClients();
+                System.out.print("spr1.0: ");
                 id = Long.valueOf(addScanner.nextLine());
                 System.out.println(id);
                 model.removeClient(id);
@@ -145,14 +147,15 @@ public class Controller
             case "2" :
                 System.out.println("Введите ID клиента для удаления, для удобства используйте Copy / Paste");
                 view.showOredrs();
-                id = Long.getLong(addScanner.nextLine());
+                System.out.print("spr1.0: ");
+                id = Long.valueOf(addScanner.nextLine());
                 model.removeOrder(id);
                 break;
             default :
                 System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");
         }
     }
-    private void modify() {
+    private void modify() throws ParseException {
         String str = "";
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиент");
@@ -165,17 +168,75 @@ public class Controller
         switch( str )
         {   
             case "1" :
-                System.out.println("в разработке");
+                System.out.println("Введите ID клиента для изменения, для удобства используйте Copy / Paste");
                 view.showClients();
+                System.out.print("spr1.0: ");
                 id = Long.valueOf(addScanner.nextLine());
-                
-                
+                Client client = model.getClientById(id);
+                if (client != null)
+                {
+                    System.out.print("Имя клиента: " + client.getName()+" введите новое имя (Enter - оставить без изменений): ");
+                    String clientName = addScanner.nextLine();
+                    if( !clientName.equals("")) {client.setName(clientName);}
+                    
+                    System.out.print("Адрес клиента: " + client.getAddress() + " введите новый адрес (Enter - оставить без изменений): ");
+                    String clientAddress = addScanner.nextLine();
+                    if( !clientAddress.equals("")) {client.setAddress(clientAddress);}
+                    
+                    System.out.print("Телефон клиента: " + client.getPhone() + " введите новый телефон (Enter - оставить без изменений): ");
+                    String clientPhone =  addScanner.nextLine();
+                    if( !clientPhone.equals("")) { client.setPhone(clientPhone); }
+                }
+                else {System.out.println("Неверный ID клиента !");}
+                model.commitClients();
                 break;
             case "2" :
-                System.out.println("в разработке");
+                System.out.println("Введите ID заказа для изменения, для удобства используйте Copy / Paste");
                 view.showOredrs();
-                id = Long.getLong(addScanner.nextLine());
-
+                System.out.print("spr1.0: ");
+                id = Long.valueOf(addScanner.nextLine());
+                Order order = model.getOrderById(id);
+                
+                System.out.println("Тек значение: " + order.getClientId() + 
+                                 " Введите ID клиента(Enter - оставить без изменений): ");
+                view.showClients();
+                System.out.print("spr1.0: ");
+                String client_id = addScanner.nextLine();
+                
+                if( !client_id.equals("")) 
+                {   
+                    if (model.getClientById(Long.valueOf(client_id)) != null)
+                    {
+                        order.setClientId(Long.valueOf(client_id));
+                    }
+                    else 
+                    {
+                        System.out.println("Нет такого клиента попробуйте занаво");
+                        return;
+                    }
+                }
+                
+                System.out.print("Тек значение: " + format.format(order.getOrderDate()) + 
+                                 " Введите дату в формате дд.мм.гггг(Enter - оставить без изменений): ");
+                String orderDate = addScanner.nextLine();
+                
+                if( !orderDate.equals("")) 
+                {
+                    order.setOrderDate(orderDate);
+                }
+                
+                System.out.print("Тек значение: " +order.getOrderSum() + "Введите сумму заказа(Enter - оставить без изменений): ");
+                String orderSumm = addScanner.nextLine();
+                if( !orderSumm.equals("")) 
+                {
+                    try {
+                        order.setOrderSum(Long.parseLong(orderSumm));
+                    } catch (Exception e) {
+                        System.out.println("Ошибка ввода данных "+e);
+                    }
+                } 
+                
+                
                 break;
             default :
                 System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");

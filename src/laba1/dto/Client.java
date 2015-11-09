@@ -26,6 +26,12 @@ public class Client implements Serializable
         return (name + address + phone).hashCode();
     }
 
+    @Override
+    public String toString() {
+        String res = String.valueOf(getId()) + getName() + getAddress() + getPhone();
+        return res;
+    }
+
     public void setName(String name)
     {
         this.name = name;

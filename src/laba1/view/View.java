@@ -1,12 +1,16 @@
 
 package laba1.view;
 
+import java.text.SimpleDateFormat;
+import java.util.Set;
 import laba1.dto.*;
 import laba1.model.InformationSystemModel;
+import static laba1.Constants.*;
 
 public class View
 {
     private final InformationSystemModel model;
+    SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public View(InformationSystemModel model)
     {
@@ -35,12 +39,27 @@ public class View
         }
     }
     public void showOredrs()
-    {
-        for(Order order: model.getOrders())
-        {
-            System.out.println(order.getOrderId() + "\t\t" + model.getClientById(order.getClientId()).getName() +
-                    "\t\t" + order.getOrderDate().toString() + "\t\t" + order.getOrderSum());
+    {   
+        Set<Order> orders = model.getOrders();
+        if (orders != null) 
+        {   
+            System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
+            for(Order order: orders )
+            {
+                System.out.print(order.getOrderId() + 
+                "\t\t" + order.getClientId() +
+                "\t\t" + format.format(order.getOrderDate()) + "\t\t" + order.getOrderSum());
+                try 
+                {
+                    System.out.println("\t\t" + model.getClientById(order.getClientId()).getName());
+                } 
+                catch (Exception e) {
+                    System.out.println("\t\t!!! НЕТ ТАКОГО КЛИЕНТА В БАЗЕ !!!");
+                }
+            }
         }
+        else { System.out.println("Нет заказов для отображения"); }
+        
     }
     
     public void showInfo(String arg)

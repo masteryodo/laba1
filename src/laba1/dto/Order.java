@@ -12,6 +12,7 @@ public class Order implements Serializable
     private long clientId;  // каждый заказ связан с клиентом по id клиента
     private Date orderDate;
     private double orderSum;
+    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public Order(long orderId, long clientId, Date orderDate, double orderSum)
     {
@@ -20,6 +21,19 @@ public class Order implements Serializable
         this.orderDate = orderDate;
         this.orderSum = orderSum;
     }
+
+    @Override
+    public String toString() {
+        String res = String.valueOf(getOrderId()) + String.valueOf(getClientId()) + format.format(getOrderDate()) + getOrderSum();
+        return res;
+    }
+
+    @Override
+    public int hashCode() {
+        return (String.valueOf(clientId) + orderDate + orderSum).hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
     public long getOrderId()
     {

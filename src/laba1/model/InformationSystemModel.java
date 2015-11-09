@@ -21,7 +21,7 @@ public class InformationSystemModel
     }
 
     public Set<Order> getOrders()
-    {
+    {   
         return ordersSet;
     }
 
@@ -33,20 +33,18 @@ public class InformationSystemModel
     public void addClient(Client client)
     {   
         clientsSet.add(client);
-        xml.writeClientsToXml(clientsSet);
+        commitClients();
     }
     public void removeClient(long id)
     {   
         if ( getClientById(id) != null)
         {
         clientsSet.remove(getClientById(id));
-        xml.writeClientsToXml(clientsSet);
+        commitClients();
         for (Order order : getOrdersByClientId(id)) 
         {
               removeOrder(order.getOrderId());
         }
-    
-        
         }
         else
         {
@@ -59,7 +57,7 @@ public class InformationSystemModel
         if ( getClientById(order.getClientId()) != null)
         {
             ordersSet.add(order);
-            xml.writeOrdersToXml(ordersSet);
+            commitClients();
         }
         else
         {
@@ -70,7 +68,7 @@ public class InformationSystemModel
     public void removeOrder(long id)
     {   
         ordersSet.remove(getOrderById(id));
-        xml.writeOrdersToXml(ordersSet);
+        commitOrders();
     }
     public Client getClientById(long id)
     {   
@@ -111,12 +109,15 @@ public class InformationSystemModel
         }
         return resultOrder;
     }
-    public void modifyClient(long id)
+    public void commitClients()
     {   
+        xml.writeClientsToXml(clientsSet);
+    }
+    public void commitOrders()
+    {   
+        xml.writeOrdersToXml(ordersSet);
     }
     
-    public void modifyOrder(long id)
-    {   
-       
-    }
+    
+    
 }
