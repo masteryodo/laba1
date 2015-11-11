@@ -2,6 +2,7 @@
 package laba1.view;
 
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
 import java.util.Set;
 import laba1.dto.*;
 import laba1.model.InformationSystemModel;
@@ -68,8 +69,38 @@ public class View
 
     }
     
-    public void showElements(String arg){
-        
+    public void showLastSearchClients() {
+        Set<Client> clients = model.getLastSearchResultClients();
+        if (clients.isEmpty() != true) 
+        {
+            for (Client client : clients) 
+            {
+                System.out.println(client.getId() + " \t\t" + client.getName() + " \t\t" + client.getPhone() + " \t\t" + client.getAddress());
             }
+        }
+        else {System.out.println("Не найдено записей по вашему запросу");}
+    }
+
+    public void showLastSearchOrders() {
+        Set<Order> orders = model.getLastSearchResultOrders();
+        if (orders.isEmpty() != true) 
+        {   
+            System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
+            for(Order order: orders )
+            {
+                System.out.print(order.getOrderId() + 
+                "\t\t" + order.getClientId() +
+                "\t\t" + format.format(order.getOrderDate()) + "\t\t" + order.getOrderSum());
+                try 
+                {
+                    System.out.println("\t\t" + model.getClientById(order.getClientId()).getName());
+                } 
+                catch (Exception e) {
+                    System.out.println("\t\t!!! НЕТ ТАКОГО КЛИЕНТА В БАЗЕ !!!");
+                }
+            }
+        }
+        else { System.out.println("Нет заказов для отображения"); }
+    }
     
 }

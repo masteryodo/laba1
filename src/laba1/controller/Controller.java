@@ -35,6 +35,7 @@ public class Controller
                  case "add"     : add();           break;
                  case "remove"  : remove();        break;
                  case "modify"  : modify();        break;
+                 case "find"    : find();        break;
                  case "exit"    : exitDialog();    break;
                  default: 
                  System.out.println("Вы ввели неподходящий символ для справки наберите help");
@@ -237,6 +238,36 @@ public class Controller
                 } 
                 
                 
+                break;
+            default :
+                System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");
+        }
+    }
+
+    private void find() {
+        String str = "";
+        System.out.println("Выберите тип элемента");
+        System.out.println("1 Клиент");
+        System.out.println("2 Заказ");
+        System.out.print("spr1.0: ");
+        Scanner scanner = new Scanner(System.in);
+        str = scanner.nextLine();
+        String mask;
+        switch( str )
+        {   
+            case "1" :
+                System.out.println("Введите маску для поиска клиента (возможны символы '*' и '?')");
+                System.out.print("spr1.0: ");
+                mask = scanner.nextLine();
+                model.findClientsByMask(mask);
+                view.showLastSearchClients();
+                break;
+            case "2" :
+                System.out.println("Введите маску для поиска заказа (возможны символы '*' и '?')");
+                System.out.print("spr1.0: ");
+                mask = scanner.nextLine();
+                model.findOrdersByMask(mask);
+                view.showLastSearchOrders();
                 break;
             default :
                 System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");

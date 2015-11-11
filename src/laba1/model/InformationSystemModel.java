@@ -6,11 +6,14 @@ import laba1.dto.Client;
 import laba1.dto.Order;
 import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
+import laba1.utils.Finder;
 
 public class InformationSystemModel
 {
     private final Set<Client> clientsSet;
     private final Set<Order> ordersSet;
+    private Set<Order> lastSearchResultOrders = null;
+    private Set<Client> lastSearchResultClients = null;
     private final XmlReaderWriter xml;
 
     public InformationSystemModel() throws ParserConfigurationException
@@ -109,6 +112,18 @@ public class InformationSystemModel
         }
         return resultOrder;
     }
+    
+    public void findClientsByMask(String mask)
+    {
+        Finder f = new Finder();
+        lastSearchResultClients = f.findClientsByMask(clientsSet, mask);
+    }
+    public void findOrdersByMask(String mask) {
+        Finder f = new Finder();
+        lastSearchResultOrders = f.findOrdersByMask(ordersSet, mask);
+    }
+    
+    
     public void commitClients()
     {   
         xml.writeClientsToXml(clientsSet);
@@ -116,8 +131,14 @@ public class InformationSystemModel
     public void commitOrders()
     {   
         xml.writeOrdersToXml(ordersSet);
+    }    
+
+    public Set<Order> getLastSearchResultOrders() {
+        return lastSearchResultOrders;
     }
-    
-    
+
+    public Set<Client> getLastSearchResultClients() {
+        return lastSearchResultClients;
+    }
     
 }
