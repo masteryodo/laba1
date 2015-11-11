@@ -25,13 +25,13 @@ public class XmlReaderWriter {
         this.dbf = DocumentBuilderFactory.newInstance();
     }
     
-    public HashSet<Client> readClientsFromXml()
+    public HashSet<Client> readClientsFromXml(String filename)
     {   
         HashSet<Client> clientsSet = new HashSet<Client>();
         try
         {
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc=db.parse(new File(CLIENTS_FILE));
+            Document doc=db.parse(new File(filename));
             doc.getDocumentElement().normalize();
             NodeList nodeLst=doc.getElementsByTagName("Client");
             for(int i = 0; i < nodeLst.getLength(); i++)
@@ -50,14 +50,16 @@ public class XmlReaderWriter {
         }
             return clientsSet;
     }
-    public HashSet<Order> readOrdersFromXml()
+    
+    
+    public HashSet<Order> readOrdersFromXml(String filename) // todo getLastChild() принимает перенос за item(i) нужно сделать проверку
     {   
         HashSet<Order> ordersSet = new HashSet<Order>();
         try
         {   
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc=db.parse(new File(ORDERS_FILE));
+            Document doc=db.parse(new File(filename));
             doc.getDocumentElement().normalize();
             NodeList nodeLst=doc.getElementsByTagName("Order");
             for(int i = 0; i < nodeLst.getLength(); i++)

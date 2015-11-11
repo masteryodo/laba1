@@ -35,7 +35,8 @@ public class Controller
                  case "add"     : add();           break;
                  case "remove"  : remove();        break;
                  case "modify"  : modify();        break;
-                 case "find"    : find();        break;
+                 case "find"    : find();          break;
+                 case "import"  : importFromXml(); break;
                  case "exit"    : exitDialog();    break;
                  default: 
                  System.out.println("Вы ввели неподходящий символ для справки наберите help");
@@ -142,7 +143,7 @@ public class Controller
                 view.showClients();
                 System.out.print("spr1.0: ");
                 id = Long.valueOf(addScanner.nextLine());
-                System.out.println(id);
+                System.out.println("Удаляется клиент с id " + id);
                 model.removeClient(id);
                 break;
             case "2" :
@@ -272,5 +273,20 @@ public class Controller
             default :
                 System.out.println("Вы ввели неверное значение " + str + "попробуйте заново");
         }
+    }
+    private void importFromXml() {
+        String str = "";
+        System.out.println("Введите имя файла (можно использовать подготовленный для теста data2import.xml)");
+        System.out.print("spr1.0: ");
+        Scanner scanner = new Scanner(System.in);
+        str = scanner.nextLine();
+        model.importElementsFromXml(str);
+        try {
+            
+            System.out.println("Импорт успешно завершен");
+        } catch (Exception e) {
+            System.out.println("Импорт завершился ошибкой "+e);
+        }
+        
     }
 }

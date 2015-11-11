@@ -6,6 +6,7 @@ import laba1.dto.Client;
 import laba1.dto.Order;
 import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
+import static laba1.Constants.*;
 import laba1.utils.Finder;
 
 public class InformationSystemModel
@@ -19,8 +20,8 @@ public class InformationSystemModel
     public InformationSystemModel() throws ParserConfigurationException
     {   
         xml = new XmlReaderWriter();
-        this.ordersSet = xml.readOrdersFromXml();
-        this.clientsSet = xml.readClientsFromXml();
+        this.ordersSet = xml.readOrdersFromXml(ORDERS_FILE);
+        this.clientsSet = xml.readClientsFromXml(CLIENTS_FILE);
     }
 
     public Set<Order> getOrders()
@@ -123,6 +124,15 @@ public class InformationSystemModel
         lastSearchResultOrders = f.findOrdersByMask(ordersSet, mask);
     }
     
+    public void importElementsFromXml(String filename)
+    {   
+        HashSet clients = new HashSet();
+        HashSet orders = new HashSet();
+        clients.addAll(xml.readClientsFromXml(filename));
+        orders.addAll(xml.readOrdersFromXml(filename));
+        System.out.println(clients);
+        System.out.println(orders);
+    }
     
     public void commitClients()
     {   
