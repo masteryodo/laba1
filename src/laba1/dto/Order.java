@@ -1,14 +1,12 @@
 
 package laba1.dto;
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import laba1.utils.GenerateId;
 
-public class Order implements Serializable
+public class Order
 {
-    private long orderId;
+    private final long orderId;
     private long clientId;  // каждый заказ связан с клиентом по id клиента
     private Date orderDate;
     private double orderSum;
@@ -30,11 +28,9 @@ public class Order implements Serializable
 
     @Override
     public int hashCode() {
-        return (String.valueOf(clientId) + orderDate + orderSum).hashCode(); //To change body of generated methods, choose Tools | Templates.
+        return (String.valueOf(clientId) + orderDate + orderSum).hashCode(); 
     }
-    
-    
-    
+
     public long getOrderId()
     {
         return this.orderId;
@@ -53,11 +49,6 @@ public class Order implements Serializable
     public double getOrderSum()
     {
         return orderSum;
-    }
-
-    public void setOrderId()
-    {
-        this.orderId = GenerateId.getId();
     }
 
     public void setClientId(long clientId)

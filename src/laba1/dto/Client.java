@@ -1,16 +1,14 @@
 
 package laba1.dto;
 
-import java.io.Serializable;
 import java.util.Set;
 
-public class Client implements Serializable
+public class Client
 {
     private final long id;
     private String name;
     private String address;
     private String phone;
-    private Set<Order> orders;
 
     public Client(final long id, final String name, final String address, final String phone)
     {
@@ -27,7 +25,8 @@ public class Client implements Serializable
     }
 
     @Override
-    public String toString() {
+    public String toString() 
+    {
         String res = String.valueOf(getId()) + getName() + getAddress() + getPhone();
         return res;
     }

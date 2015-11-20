@@ -13,7 +13,7 @@ public class Controller
 {
     private final InformationSystemModel model;
     private final View view;
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public Controller(InformationSystemModel model)
     {
@@ -23,7 +23,7 @@ public class Controller
     
     public void getCommand() throws ParseException
     {
-        String s1 = "";
+        String s1;
         Scanner sc = new Scanner(System.in);
         do
         { System.out.print("spr1.0: ");
@@ -105,7 +105,7 @@ public class Controller
     }
 
     private void show() {
-        String str = "";
+        String str;
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиенты");
         System.out.println("2 Заказы");
@@ -127,7 +127,7 @@ public class Controller
     }
 
     private void remove() {
-        String str = "";
+        String str;
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиент");
         System.out.println("2 Заказ");
@@ -158,7 +158,7 @@ public class Controller
         }
     }
     private void modify() throws ParseException {
-        String str = "";
+        String str;
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиент");
         System.out.println("2 Заказ");
@@ -246,7 +246,7 @@ public class Controller
     }
 
     private void find() {
-        String str = "";
+        String str;
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиент");
         System.out.println("2 Заказ");

@@ -35,7 +35,7 @@ public class XmlReaderWriter {
             doc.getDocumentElement().normalize();
             NodeList nodeLst=doc.getElementsByTagName("Client");
             for(int i = 0; i < nodeLst.getLength(); i++)
-            {   
+            {   System.out.println(nodeLst.item(i));
                 NodeList client = nodeLst.item(i).getChildNodes();
                 Long client_id = new Long(client.item(0).getLastChild().getTextContent());
                 String name = client.item(1).getLastChild().getTextContent();
