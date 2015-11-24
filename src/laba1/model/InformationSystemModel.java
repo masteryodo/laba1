@@ -11,10 +11,10 @@ import laba1.utils.Finder;
 
 public class InformationSystemModel
 {
-    private final Set<Client> clientsSet;
-    private final Set<Order> ordersSet;
-    private Set<Order> lastSearchResultOrders = null;
-    private Set<Client> lastSearchResultClients = null;
+    private final HashSet<Client> clientsSet;
+    private final HashSet<Order> ordersSet;
+    private HashSet<Order> lastSearchResultOrders = null;
+    private HashSet<Client> lastSearchResultClients = null;
     private final XmlReaderWriter xml;
 
     public InformationSystemModel() throws ParserConfigurationException
@@ -61,7 +61,7 @@ public class InformationSystemModel
         if ( getClientById(order.getClientId()) != null)
         {
             ordersSet.add(order);
-            commitClients();
+            commitOrders();
         }
         else
         {
@@ -130,8 +130,10 @@ public class InformationSystemModel
         HashSet orders = new HashSet();
         clients.addAll(xml.readClientsFromXml(filename));
         orders.addAll(xml.readOrdersFromXml(filename));
-        System.out.println(clients);
-        System.out.println(orders);
+        clientsSet.addAll(clients);
+        ordersSet.addAll(orders);
+        commitClients();
+        commitOrders();
     }
     
     public void commitClients()

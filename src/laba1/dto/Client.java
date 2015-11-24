@@ -1,6 +1,7 @@
 
 package laba1.dto;
 
+import com.sun.org.apache.xpath.internal.operations.Equals;
 import java.util.Set;
 
 public class Client
@@ -23,7 +24,37 @@ public class Client
     {
         return (name + address + phone).hashCode();
     }
-
+    
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj)
+        {
+            return true;
+        }
+	if (obj == null)
+        { 
+            return false; 
+        }
+        if (getClass() != obj.getClass())
+        { 
+            return false; 
+        }
+        Client other = (Client) obj;
+	if (!name.equals(other.name))
+        {
+            return false;
+        }
+	if (!address.equals(other.address))
+        {
+            return false;
+        }
+	if (!phone.equals(other.phone))
+        {
+            return false; 
+        }
+	return true;
+    }
+    
     @Override
     public String toString() 
     {

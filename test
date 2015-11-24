@@ -1,4 +1,4 @@
-package laba1.utils;
+ package laba1.utils;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,10 +28,6 @@ public class XmlReaderWriter {
     public HashSet<Client> readClientsFromXml(String filename)
     {   
         HashSet<Client> clientsSet = new HashSet<Client>();
-        Long client_id = null;
-        String name = null;
-        String address = null;
-        String phone = null;
         try
         {
             DocumentBuilder db = dbf.newDocumentBuilder();
@@ -41,32 +37,16 @@ public class XmlReaderWriter {
             for(int i = 0; i < nodeLst.getLength(); i++)
             {   
                 NodeList client = nodeLst.item(i).getChildNodes();
-                for(int j = 0; j < client.getLength(); j++)
-                {   
-                        if(client.item(j).getNodeName().toString().equals("client_id"))
-                        {   
-                            client_id = new Long(client.item(j).getLastChild().getTextContent());
-                        }
-                        if(client.item(j).getNodeName().toString().equals("name"))
-                        {   
-                            name = client.item(j).getLastChild().getTextContent();
-                        }
-                        if(client.item(j).getNodeName().toString().equals("address"))
-                        {   
-                            address = client.item(j).getLastChild().getTextContent();
-                        }
-                        if(client.item(j).getNodeName().toString().equals("phone"))
-                        {   
-                            phone = client.item(j).getLastChild().getTextContent();
-                        }
-                
-                }
-                clientsSet.add(new Client(client_id, name, address, phone)); 
+                Long client_id = new Long(client.item(0).getLastChild().getTextContent());
+                String name = client.item(1).getLastChild().getTextContent();
+                String address = client.item(2).getLastChild().getTextContent();
+                String phone = client.item(3).getLastChild().getTextContent();
+                clientsSet.add(new Client(client_id, name, address, phone));
             }
         }
         catch(Exception ei)
         {
-            System.out.println("Ошибка чтения БД "+ei);
+            System.out.println("Ошибка чтения Клиентов из файла "+ei);
         }
             return clientsSet;
     }
@@ -218,8 +198,10 @@ public void writeOrdersToXml(Set<Order> ordersSet)
         catch (ParserConfigurationException e)
         {
             throw new InformationSystemUiException("Problem Initialization xml parser: ", e);
+
         }
     }
 
 } 
+
 

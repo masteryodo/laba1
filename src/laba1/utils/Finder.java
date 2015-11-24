@@ -16,7 +16,7 @@ public class Finder {
      * @param mask маска по которой ищется совпадение с учетом спецсимволов * и ?
      * @return возвращает HashSet клдиентов которые попадают под условия поиска
      */
-    public Set<Client> findClientsByMask(Set<Client> clients, String mask){
+    public HashSet<Client> findClientsByMask(Set<Client> clients, String mask){
         HashSet<Client> resultSet = new HashSet<Client>();
         for (Client client : clients) 
         {
@@ -34,7 +34,7 @@ public class Finder {
      * @param mask маска по которой ищется совпадение с учетом спецсимволов * и ?
      * @return возвращает HashSet ордеров которые попадают под условия поиска
      */
-    public Set<Order> findOrdersByMask(Set<Order> orders, String mask){
+    public HashSet<Order> findOrdersByMask(Set<Order> orders, String mask){
         HashSet<Order> resultSet = new HashSet<Order>();
         for (Order order : orders) 
         {

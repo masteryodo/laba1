@@ -30,6 +30,37 @@ public class Order
     public int hashCode() {
         return (String.valueOf(clientId) + orderDate + orderSum).hashCode(); 
     }
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj)
+        {
+            return true;
+        }
+	if (obj == null)
+        { 
+            return false; 
+        }
+        if (getClass() != obj.getClass())
+        { 
+            return false; 
+        }
+        Order other = (Order) obj;
+	if (!Long.valueOf(clientId).equals(Long.valueOf(other.clientId)))
+        {   
+            return false;
+            
+        }
+	if (!format.format(orderDate).equals(format.format(other.orderDate)))
+        {
+            return false;
+        }
+	if (orderSum != other.orderSum)
+        {
+            System.out.println("XXXX");
+            return false; 
+        }
+	return true;
+    }
 
     public long getOrderId()
     {

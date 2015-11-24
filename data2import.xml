@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Orders>
+<Import>
   <Order>
     <order_id>1447060835609</order_id>
     <client_id>1445779398623</client_id>
@@ -7,9 +7,16 @@
     <order_sum>15000.0</order_sum>
     </Order>
     <Order>
-    <order_id>1445260835609</order_id>
+    <order_id>1445260835606</order_id>
     <client_id>1445779398623</client_id>
     <order_date>12.01.2015</order_date>
-    <order_sum>995000.0</order_sum>
+    <order_sum>1000.0</order_sum>
     </Order>
-</Orders>
+<Client>
+    <client_id>1448357876627</client_id>
+    <name>Андрей</name>
+    <address>Тольятти</address>
+    <phone>8916888888</phone>
+</Client>
+
+</Import>

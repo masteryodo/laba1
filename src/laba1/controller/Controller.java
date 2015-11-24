@@ -232,12 +232,12 @@ public class Controller
                 if( !orderSumm.equals("")) 
                 {
                     try {
-                        order.setOrderSum(Long.parseLong(orderSumm));
+                        order.setOrderSum(Double.parseDouble(orderSumm));
                     } catch (Exception e) {
                         System.out.println("Ошибка ввода данных "+e);
                     }
                 } 
-                
+                model.commitOrders();
                 
                 break;
             default :
