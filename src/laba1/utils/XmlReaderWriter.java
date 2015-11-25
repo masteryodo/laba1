@@ -5,6 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.xml.parsers.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
@@ -150,7 +154,20 @@ public class XmlReaderWriter {
                 tel.appendChild(doc.createTextNode(h.getPhone()));
                 te.appendChild(tel);
             }
+            ZipOutputStream zout = new ZipOutputStream(new FileOutputStream("clients.zip"));
+            ZipEntry ze = new ZipEntry(CLIENTS_FILE);
+            zout.putNextEntry(ze);
             transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(CLIENTS_FILE)));
+            BufferedInputStream in = new BufferedInputStream( new FileInputStream(CLIENTS_FILE));
+            int length;
+            byte[] buffer = new byte[1024];
+            
+            while((length = in.read(buffer)) > 0) {
+                zout.write(buffer, 0, length);
+            }
+            in.close();
+            zout.closeEntry();
+            zout.close();
         }
         catch (FileNotFoundException e)
         {
@@ -168,6 +185,8 @@ public class XmlReaderWriter {
         {
             throw new InformationSystemUiException("Problem Initialization xml parser: ", e);
 
+        } catch (IOException ex) {
+            Logger.getLogger(XmlReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 public void writeOrdersToXml(Set<Order> ordersSet)
@@ -201,7 +220,21 @@ public void writeOrdersToXml(Set<Order> ordersSet)
                 tel.appendChild(doc.createTextNode(String.valueOf(h.getOrderSum())));
                 te.appendChild(tel);
             }
+            
+            ZipOutputStream zout = new ZipOutputStream(new FileOutputStream("orders.zip"));
+            ZipEntry ze = new ZipEntry(ORDERS_FILE);
+            zout.putNextEntry(ze);
             transformer.transform(new DOMSource(doc), new StreamResult(new FileOutputStream(ORDERS_FILE)));
+            BufferedInputStream in = new BufferedInputStream( new FileInputStream(ORDERS_FILE));
+            int length;
+            byte[] buffer = new byte[1024];
+            
+            while((length = in.read(buffer)) > 0) {
+                zout.write(buffer, 0, length);
+            }
+            in.close();
+            zout.closeEntry();
+            zout.close();
         }
         catch (FileNotFoundException e)
         {
@@ -218,6 +251,8 @@ public void writeOrdersToXml(Set<Order> ordersSet)
         catch (ParserConfigurationException e)
         {
             throw new InformationSystemUiException("Problem Initialization xml parser: ", e);
+        } catch (IOException ex) {
+            Logger.getLogger(XmlReaderWriter.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
