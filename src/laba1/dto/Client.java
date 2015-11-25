@@ -1,9 +1,6 @@
 
 package laba1.dto;
 
-import com.sun.org.apache.xpath.internal.operations.Equals;
-import java.util.Set;
-
 public class Client
 {
     private final long id;

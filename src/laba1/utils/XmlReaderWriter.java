@@ -1,5 +1,6 @@
 package laba1.utils;
 import java.io.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -16,9 +17,10 @@ import laba1.dto.Client;
 import laba1.dto.Order;
 import laba1.exception.InformationSystemUiException;
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 public class XmlReaderWriter {
-    private DocumentBuilderFactory dbf;
+    private final DocumentBuilderFactory dbf;
         
     public XmlReaderWriter()
     {
@@ -43,28 +45,27 @@ public class XmlReaderWriter {
                 NodeList client = nodeLst.item(i).getChildNodes();
                 for(int j = 0; j < client.getLength(); j++)
                 {   
-                        if(client.item(j).getNodeName().toString().equals("client_id"))
+                        if(client.item(j).getNodeName().equals("client_id"))
                         {   
                             client_id = new Long(client.item(j).getLastChild().getTextContent());
                         }
-                        if(client.item(j).getNodeName().toString().equals("name"))
+                        if(client.item(j).getNodeName().equals("name"))
                         {   
                             name = client.item(j).getLastChild().getTextContent();
                         }
-                        if(client.item(j).getNodeName().toString().equals("address"))
+                        if(client.item(j).getNodeName().equals("address"))
                         {   
                             address = client.item(j).getLastChild().getTextContent();
                         }
-                        if(client.item(j).getNodeName().toString().equals("phone"))
+                        if(client.item(j).getNodeName().equals("phone"))
                         {   
                             phone = client.item(j).getLastChild().getTextContent();
                         }
-                
                 }
                 clientsSet.add(new Client(client_id, name, address, phone)); 
             }
         }
-        catch(Exception ei)
+        catch(ParserConfigurationException | SAXException | IOException | DOMException | NumberFormatException ei)
         {
             System.out.println("Ошибка чтения БД "+ei);
         }
@@ -72,14 +73,13 @@ public class XmlReaderWriter {
     }
     
     
-    public HashSet<Order> readOrdersFromXml(String filename) // todo getLastChild() принимает перенос за item(i) нужно сделать проверку
+    public HashSet<Order> readOrdersFromXml(String filename)
     {   
         Long orderId = null;
         Long clientId = null;
         Date orderDate = null;
         double orderSum = 0;
         HashSet<Order> ordersSet = new HashSet<Order>();
-        
         try
         {   
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -92,7 +92,7 @@ public class XmlReaderWriter {
                 NodeList order = nodeLst.item(i).getChildNodes();
                 for(int j = 0; j < order.getLength(); j++)
                 {   
-                        if(order.item(j).getNodeName().toString().equals("order_id"))
+                        if(order.item(j).getNodeName().equals("order_id"))
                         {   
                             orderId = new Long(order.item(j).getLastChild().getTextContent());
                         }
@@ -113,7 +113,7 @@ public class XmlReaderWriter {
                 }
             }
 
-        catch(Exception e)
+        catch(ParserConfigurationException | SAXException | IOException | DOMException | NumberFormatException | ParseException e)
         {
             System.out.println("Ошибка чтения ордеров из файла !!!"+e);
         }

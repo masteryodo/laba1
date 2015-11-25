@@ -14,7 +14,7 @@ public class Finder {
      * Поиск Клиентов по маске
      * @param clients Set в котором нужно найти совпадения
      * @param mask маска по которой ищется совпадение с учетом спецсимволов * и ?
-     * @return возвращает HashSet клдиентов которые попадают под условия поиска
+     * @return возвращает HashSet клиентов которые попадают под условия поиска
      */
     public HashSet<Client> findClientsByMask(Set<Client> clients, String mask){
         HashSet<Client> resultSet = new HashSet<Client>();

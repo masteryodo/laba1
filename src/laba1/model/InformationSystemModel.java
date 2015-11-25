@@ -1,10 +1,10 @@
 
 package laba1.model;
 
+import java.util.HashSet;
 import laba1.utils.XmlReaderWriter;
 import laba1.dto.Client;
 import laba1.dto.Order;
-import java.util.*;
 import javax.xml.parsers.ParserConfigurationException;
 import static laba1.Constants.*;
 import laba1.utils.Finder;
@@ -24,12 +24,12 @@ public class InformationSystemModel
         this.clientsSet = xml.readClientsFromXml(CLIENTS_FILE);
     }
 
-    public Set<Order> getOrders()
+    public HashSet<Order> getOrders()
     {   
         return ordersSet;
     }
 
-    public Set<Client> getClients()
+    public HashSet<Client> getClients()
     {
         return clientsSet;
     }
@@ -102,7 +102,7 @@ public class InformationSystemModel
         return resultOrder;
     }
     
-    public Set<Order> getOrdersByClientId(long id)
+    public HashSet<Order> getOrdersByClientId(long id)
     {   
         HashSet<Order> resultOrder = new HashSet<>();
         for (Order order : ordersSet) {
@@ -114,11 +114,21 @@ public class InformationSystemModel
         return resultOrder;
     }
     
+    /**
+     * Заполняет сет lastSearchResultClients
+     * после чего View может его вывести в читабельном виде на экран
+     * @param mask
+     */
     public void findClientsByMask(String mask)
     {
         Finder f = new Finder();
         lastSearchResultClients = f.findClientsByMask(clientsSet, mask);
     }
+    /**
+     * Заполняет сет lastSearchResultOrders
+     * после чего View может его вывести в читабельном виде на экран
+     * @param mask
+     */
     public void findOrdersByMask(String mask) {
         Finder f = new Finder();
         lastSearchResultOrders = f.findOrdersByMask(ordersSet, mask);
@@ -145,11 +155,11 @@ public class InformationSystemModel
         xml.writeOrdersToXml(ordersSet);
     }    
 
-    public Set<Order> getLastSearchResultOrders() {
+    public HashSet<Order> getLastSearchResultOrders() {
         return lastSearchResultOrders;
     }
 
-    public Set<Client> getLastSearchResultClients() {
+    public HashSet<Client> getLastSearchResultClients() {
         return lastSearchResultClients;
     }
     

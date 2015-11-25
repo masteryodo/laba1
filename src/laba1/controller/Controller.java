@@ -47,14 +47,13 @@ public class Controller
     
     public void add() throws ParseException
     {
-        String str = "";
+        String str;
         System.out.println("Выберите тип элемента");
         System.out.println("1 Клиент");
         System.out.println("2 Заказ");
         System.out.print("spr1.0: ");
         Scanner addScanner = new Scanner(System.in);
         str = addScanner.nextLine();
-        
         switch( str )
         {   
             case "1" :
@@ -275,7 +274,7 @@ public class Controller
         }
     }
     private void importFromXml() {
-        String str = "";
+        String str ;
         System.out.println("Введите имя файла (можно использовать подготовленный для теста data2import.xml)");
         System.out.print("spr1.0: ");
         Scanner scanner = new Scanner(System.in);

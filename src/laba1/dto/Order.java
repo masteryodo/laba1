@@ -10,7 +10,7 @@ public class Order
     private long clientId;  // каждый заказ связан с клиентом по id клиента
     private Date orderDate;
     private double orderSum;
-    private SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+    private final SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
 
     public Order(long orderId, long clientId, Date orderDate, double orderSum)
     {
@@ -45,10 +45,9 @@ public class Order
             return false; 
         }
         Order other = (Order) obj;
-	if (!Long.valueOf(clientId).equals(Long.valueOf(other.clientId)))
+	if (!Long.valueOf(clientId).equals(other.clientId))
         {   
             return false;
-            
         }
 	if (!format.format(orderDate).equals(format.format(other.orderDate)))
         {
@@ -56,7 +55,6 @@ public class Order
         }
 	if (orderSum != other.orderSum)
         {
-            System.out.println("XXXX");
             return false; 
         }
 	return true;
@@ -89,8 +87,7 @@ public class Order
 
     public void setOrderDate(String orderDate) throws ParseException
     {   
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        this.orderDate = dateFormat.parse(orderDate);
+        this.orderDate = format.parse(orderDate);
     }
 
     public void setOrderSum(double orderSum)

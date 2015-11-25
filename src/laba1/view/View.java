@@ -2,11 +2,9 @@
 package laba1.view;
 
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
 import java.util.Set;
 import laba1.dto.*;
 import laba1.model.InformationSystemModel;
-import static laba1.Constants.*;
 
 public class View
 {
@@ -44,7 +42,7 @@ public class View
         Set<Order> orders = model.getOrders();
         if (orders != null) 
         {   
-            System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
+            //System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
             for(Order order: orders )
             {
                 System.out.print(order.getOrderId() + 
@@ -85,7 +83,7 @@ public class View
         Set<Order> orders = model.getLastSearchResultOrders();
         if (orders.isEmpty() != true) 
         {   
-            System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
+            //System.out.println("order_id \t\t client_id \t\t date \t\t\t summ \t\t client_name");
             for(Order order: orders )
             {
                 System.out.print(order.getOrderId() + 
